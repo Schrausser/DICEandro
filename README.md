@@ -1,2 +1,2 @@
 # DICEandro
-Android random dice roll.
+Quasi random number generator via simulated dice roll.
