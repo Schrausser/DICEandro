@@ -3,7 +3,7 @@
 ! // Dietmar Schrausser 2023                               //
 ! //                                                       //
 _name$="DICE"
-_ver$= "v1.5.0"
+_ver$= "v1.5.1"
 ! ///////////////////////////////////////////////////////////
 INCLUDE strg.inc
 INCLUDE dice.inc
@@ -17,7 +17,7 @@ dn=sx/21                    % // length of roll            //
 dy1=sy/dl                   % // dice hight min            //
 dx2=sx/dl                   % // dice width                //
 dy2=dy1-dx2                 % // dice hight max            //
-dxv=sx/60                   % // dice speed                //
+dxv=18                      % // dice way                //
 dcn1x=sx/(dl*2)
 dcn1y=dy1-dcn1x
 dcn1r=sx/(dl*12)
