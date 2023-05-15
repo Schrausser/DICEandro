@@ -1,5 +1,5 @@
 # DICEandro
-Quasi random number generator via simulated dice roll.
+Quasi random number generator via simulated dice roll for Android.
 
 ![figure.\label{pic1}](pic1.jpg)
 
