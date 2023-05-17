@@ -3,7 +3,7 @@
 ! // Dietmar Schrausser 2023                               //
 ! //                                                       //
 _name$="DICE"
-_ver$= "v1.5.1"
+_ver$= "v1.5.2"
 ! ///////////////////////////////////////////////////////////
 INCLUDE strg.inc
 INCLUDE dice.inc
@@ -17,7 +17,7 @@ dn=sx/21                    % // length of roll            //
 dy1=sy/dl                   % // dice hight min            //
 dx2=sx/dl                   % // dice width                //
 dy2=dy1-dx2                 % // dice hight max            //
-dxv=18                      % // dice way                //
+dxv=18                      % // dice way length           //
 dcn1x=sx/(dl*2)
 dcn1y=dy1-dcn1x
 dcn1r=sx/(dl*12)
@@ -29,40 +29,42 @@ r0=RANDOMIZE(seed)
 __sd_=seed
 swfl=1
 fld$="dice.dat"             % // data outstream            //
-vlen=10            % // max lenght of screen vector output //
-GOSUB dialog             
+vlen=10                     % // screen vector output len  //
+GOSUB dialog      
 ! //
+GR.BITMAP.CREATE         
 st:                         % // main start                //
-IF rnd_=1: meth$="SIGMA"
-ELSE
-meth$="System":ENDIF
-dx0=sx/20                   % // dice roll factor          //
-IF dre=-1                   % // left to right roll        //
-ELSE                        % // right to left roll        //
- dx0=2*dx0+(dxv*(dn))-dx2   % // d r factor reversed       //
-ENDIF
-GOSUB diceroll
-dicev[cntr]=rndt             % // vector                    //
-cntr=cntr+1
 DO
- GR.TOUCH2 tc2,tx2,ty2
- IF tc2:GOSUB dialog:ENDIF
- GR.TOUCH tc,tx,ty
- IF tc: GOTO st:ENDIF
-UNTIL0                      % // main end                   //
+ IF rnd_=1: meth$="SIGMA"
+ ELSE
+ meth$="System":ENDIF
+ dx0=sx/20                   % // dice roll factor         //
+ IF dre=-1                   % // left to right roll       //
+ ELSE                        % // right to left roll       //
+  dx0=2*dx0+(dxv*(dn))-dx2   % // d r factor reversed      //
+ ENDIF
+ GOSUB diceroll
+ dicev[cntr]=rndt            % // vector                   //
+ cntr=cntr+1
+ DO
+  GR.TOUCH2 tc2,tx2,ty2
+  IF tc2:GOSUB dialog:ENDIF
+  GR.TOUCH tc,tx,ty
+ UNTIL tc                    % // main end                 //
+UNTIL 0             
 ONERROR:
 swsed=1:swfl=-1:GOSUB dialog
 ONBACKKEY:
 GOSUB fin
 END
-! ////////////////////////////////////////////////////////////
-! //                                           subroutines  //
+! ///////////////////////////////////////////////////////////
+! //                                          subroutines  //
 dvect:
 DIM dicev[10000]
 cntr=1:cntr2=1
 RETURN 
 ! //
-diceroll:                  % // dice roll cycle            //
+diceroll:                    % // dice roll cycle          //
 FOR i=1 TO dn  
  GR.CLS
  IF scm=1: GR.COLOR 200,0,0,0,1:ENDIF
@@ -78,16 +80,18 @@ FOR i=1 TO dn
  GOSUB txt
  GOSUB vector
  GR.RENDER
+ !PAUSE (1080/sx)*10      % // speed  //
 NEXT
 cntr2=cntr2+1
 RETURN 
 ! //
-randsw:                    % // random number calculation   //
+randsw:                   % // random number calculation   //
 IF rnd_=1:INCLUDE sigma.inc:rnd=CEIL(n__*6):rndt=n__*6+0.5:ELSE
 rnd=RND():rndt=rnd*6+0.5:rnd=CEIL(rnd*6):ENDIF
+CLIPBOARD.PUT STR$(rndt)
 RETURN
 ! //
-dicern:                    % // dice numbers                //
+dicern:                   % // dice numbers                //
 IF scm=1:GR.COLOR 225,255,255,255,1:ENDIF
 IF scm=-1:GR.COLOR 240,255,0,0,1:ENDIF
 SW.BEGIN rnd
@@ -125,7 +129,7 @@ SW.BEGIN rnd
 SW.END
 RETURN
 ! //
-txt:                       % // text output                 //
+txt:                        % // text output                 //
 GR.TEXT.SIZE sx/20
 GR.TEXT.ALIGN 1
 IF dre=1
@@ -150,7 +154,7 @@ GR.TEXT.DRAW tx,sx-sx/8,sy-sy/16,"DICE"
 RETURN 
 ! //
 vector:    
-GOSUB coln             % // random vector screen output 1 //
+GOSUB coln                % // random vector screen output 1 //
 GR.TEXT.SIZE sx/20
 GR.TEXT.ALIGN 1
 IF cntr2<=vlen
@@ -160,7 +164,7 @@ ELSE
 ENDIF
 RETURN
 ! //
-vectscr:               % // random vector screen output 2 //
+vectscr:                  % // random vector screen output 2 //
 IF dre=1
  GR.TEXT.DRAW vc,sx/32,sy/4+j*(sy/40),FORMAT$("%.###",dicev[cntr-j])
 ELSE
@@ -169,7 +173,7 @@ ELSE
 ENDIF
 RETURN
 ! //
-coln: % // color of random numbers //
+coln:                     % // color of random numbers      //
 IF scm=1
  GR.COLOR 200,50,50,50,1
 ELSE
@@ -192,6 +196,8 @@ SW.BEGIN sel
   SW.BREAK
  SW.CASE 3
   INPUT "F(n) Vektor m...",vlen,10
+  IF vlen <0 THEN vlen =0
+  IF vlen >20 THEN vlen =20
   SW.BREAK
  SW.CASE 4
   swfl=swfl*-1
@@ -232,7 +238,7 @@ r0=RANDOMIZE(seed):__sd_=seed
 GOSUB dvect
 RETURN 
 ! //
-file:                        % // vector file output //
+file:                            % // vector file output //
 TEXT.OPEN a, fld, fld$ 
 GOSUB systime
 GOSUB lin:GOSUB head:GOSUB lin
