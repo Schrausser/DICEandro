@@ -3,7 +3,7 @@
 ! // Dietmar Schrausser 2023                               //
 ! //                                                       //
 _name$="DICE"
-_ver$= "v1.5.2"
+_ver$= "v1.5.3"
 ! ///////////////////////////////////////////////////////////
 INCLUDE strg.inc
 INCLUDE dice.inc
@@ -195,7 +195,7 @@ SW.BEGIN sel
   r0=RANDOMIZE(seed):__sd_=seed
   SW.BREAK
  SW.CASE 3
-  INPUT "F(n) Vektor m...",vlen,10
+  INPUT "F(n) Vector m...",vlen,10
   IF vlen <0 THEN vlen =0
   IF vlen >20 THEN vlen =20
   SW.BREAK
