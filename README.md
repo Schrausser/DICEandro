@@ -1,4 +1,6 @@
 # DICEandro
+[Demo movie](https://m.youtube.com/watch?v=Chh-5Eay2-I)
+
 Quasi random number generator via simulated dice roll for Android.
 
 ![figure.\label{pic1}](pic1.jpg)
