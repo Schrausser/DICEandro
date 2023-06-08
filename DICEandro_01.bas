@@ -274,6 +274,7 @@ CONSOLE.TITLE _name$
 PRINT _name$+" Random Dice Roll "+ _ver$
 PRINT"Copyright "+_cr$+" 2023 by Dietmar Gerald Schrausser"
 PRINT "https://github.com/Schrausser/DICEandro"
+PRINT "DOI:10.5281/zenodo.7943339"
 RETURN
 !// END //
 !//
