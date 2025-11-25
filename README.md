@@ -6,7 +6,7 @@ Quasi random number generator via simulated dice roll for Android, see Fig. 1 to
 $$n_i=a⋅r_{n_{i-1}^\varsigma}-int(a⋅r_{n_{i-1}^\varsigma}),$$
 
 with restvalue $r_x$, $a=10^3$, $\varsigma=\frac{34}{45}$.
-See `sigma.inc`, Schrausser ([2022a](https://doi.org/10.13140/RG.2.2.28314.52164), p. 17).
+See `sigma.inc`, Schrausser ([2022](https://doi.org/10.13140/RG.2.2.28314.52164), p. 17).
 
 Figure 1.
 ![figure.\label{pic1}](pic1.jpg)
